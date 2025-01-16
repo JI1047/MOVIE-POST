@@ -1,0 +1,26 @@
+# 빌드 파일
+/target/
+/build/
+
+# 환경 변수 파일
+*.properties
+*.yml
+*.env
+
+# IDE 설정 파일
+.idea/
+*.iml
+
+# 시스템 파일
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+
+# 제외할 디렉토리
+src/main/java/com/Post/repository/
+src/main/java/com/Post/config/
+src/main/java/com/Post/controller/
+src/main/java/com/Post/dto/
+src/main/java/com/Post/service/
