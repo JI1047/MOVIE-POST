@@ -18,9 +18,3 @@ Thumbs.db
 # 로그 파일
 *.log
 
-# 제외할 디렉토리
-src/main/java/com/Post/repository/
-src/main/java/com/Post/config/
-src/main/java/com/Post/controller/
-src/main/java/com/Post/dto/
-src/main/java/com/Post/service/
