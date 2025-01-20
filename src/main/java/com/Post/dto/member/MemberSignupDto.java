@@ -8,9 +8,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberRequestDto {
+public class MemberSignupDto {
 
     @NotBlank(message = "이름은 필수 입력 값입니다.")
+    @Size(min = 2, max = 8, message = "닉네임은 2~8자 이내여야 합니다.")
     private String username;
 
     @NotBlank(message = "이메일은 필수 입력 값입니다.")

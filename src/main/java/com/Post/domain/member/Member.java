@@ -30,6 +30,9 @@ public class Member {
     private List<Comment> comments = new ArrayList<>();
 
     @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     private String username;
 
 
@@ -37,8 +40,7 @@ public class Member {
     @JsonIgnore
     private String password;
 
-    @Column(nullable = false)
-    private String email;
+
 
     @Column(name = "created_at", updatable = false, nullable = false)
     @CreationTimestamp
