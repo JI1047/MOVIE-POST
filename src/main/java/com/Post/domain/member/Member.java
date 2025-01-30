@@ -40,11 +40,14 @@ public class Member {
     @JsonIgnore
     private String password;
 
+    @Column(length = 100)
+    private String context;
 
 
     @Column(name = "created_at", updatable = false, nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)

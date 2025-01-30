@@ -2,15 +2,15 @@ package com.Post.service;
 
 
 import com.Post.domain.member.Member;
+import com.Post.dto.member.EditDto;
 import com.Post.dto.member.LoginRequestDto;
 import com.Post.dto.member.MemberSignupDto;
+import com.Post.dto.member.MyPageDto;
+import com.Post.mapper.MemberMapper;
 import com.Post.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Transactional
@@ -42,13 +42,14 @@ public class MemberService {
         member.setUsername(dto.getUsername());
         member.setEmail(dto.getEmail());
         member.setPassword(encodedPassword);
+        member.setContext(dto.getText());
         memberRepository.save(member);
 
         // MemberResponseDto 반환
         memberRepository.save(member);
     }
 
-    public Map<String,String> LoginMember(LoginRequestDto dto) {
+    public LoginRequestDto LoginMember(LoginRequestDto dto) {
 
 
         Member member = memberRepository.findByEmail(dto.getEmail())
@@ -58,9 +59,63 @@ public class MemberService {
             throw new IllegalArgumentException("존재하지 않는 패스워드 입니다.");
         }
 
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "로그인 성공!");
-
-        return response;
+        return MemberMapper.toLoginRequestDto(member);
     }
+
+    public MyPageDto MyPageMember(Long userId) {
+        Member member = memberRepository.findById(userId).orElseThrow();
+        return MemberMapper.toMyPageDto(member);
+
+    }
+
+    public EditDto EditMemberInfo(Long userId) {
+        Member member = memberRepository.findById(userId).orElseThrow();
+        return MemberMapper.toEditDto(member);
+    }
+
+    public EditDto EditMember(Long userId, EditDto dto) {
+        // 데이터베이스에서 회원 정보 조회
+        Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+
+//        // 기존 비밀번호와 입력된 비밀번호 비교
+//        if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
+//            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+//        }
+
+        // 변경된 값이 없는지 확인
+        if (isNoChanges(dto, member)) {
+            throw new IllegalArgumentException("변경된 정보가 없습니다.");
+        }
+
+        // 변경된 값 업데이트
+        if (dto.getUsername() != null && !dto.getUsername().equals(member.getUsername())) {
+            member.setUsername(dto.getUsername());
+        }
+        if (dto.getEmail() != null && !dto.getEmail().equals(member.getEmail())) {
+            member.setEmail(dto.getEmail());
+        }
+        if (dto.getContext() != null && !dto.getContext().equals(member.getContext())) {
+            member.setContext(dto.getContext());
+        }
+
+        // 비밀번호 변경 처리 (옵션)
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            member.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        // 저장 후 반환
+        memberRepository.save(member);
+
+        return MemberMapper.toEditDto(member);
+    }
+
+    // 변경 사항이 없는지 확인하는 메서드
+    private boolean isNoChanges(EditDto dto, Member member) {
+        return (dto.getUsername() == null || dto.getUsername().equals(member.getUsername())) &&
+                (dto.getEmail() == null || dto.getEmail().equals(member.getEmail())) &&
+                (dto.getContext() == null || dto.getContext().equals(member.getContext())) &&
+                (dto.getPassword() == null || dto.getPassword().isEmpty());
+    }
+
+
 }
