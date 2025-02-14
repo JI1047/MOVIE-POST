@@ -116,6 +116,13 @@ public class MemberService {
                 (dto.getContext() == null || dto.getContext().equals(member.getContext())) &&
                 (dto.getPassword() == null || dto.getPassword().isEmpty());
     }
+    public void deleteMember(Long id) {
+        if (!memberRepository.existsById(id)) {
+            throw new IllegalArgumentException("해당 사용자를 찾을 수 없습니다.");
+        }
+
+        memberRepository.deleteById(id); // 회원 삭제
+    }
 
 
 }

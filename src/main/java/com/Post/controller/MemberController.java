@@ -64,10 +64,16 @@ public class MemberController {
     @PutMapping("/{userId}/edit")
     public ResponseEntity<EditDto> editUserInfo(@PathVariable Long userId, @RequestBody EditDto editData) {
 
-        EditDto userInfo = memberService.EditMember(userId,editData);
+        EditDto userInfo = memberService.EditMember(userId, editData);
         if (userInfo == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(userInfo);
+    }
+
+    @DeleteMapping("{userId}/delete")
+    public ResponseEntity<String> deleteUserInfo(@PathVariable Long userId) {
+        memberService.deleteMember(userId);
+        return ResponseEntity.ok("회원탈퇴가 완료되었습니다.");
     }
 }

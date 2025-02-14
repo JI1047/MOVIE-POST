@@ -23,9 +23,6 @@ public class Post {
     @Column(name = "post_id")
     private Long id; // 게시글 ID
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable = false) // Board 테이블과 연결
-    private Board board; // 게시판 ID (외래키)
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false) // Member 테이블과 연결
