@@ -2,6 +2,7 @@ package com.Post.mapper;
 
 import com.Post.domain.Post;
 import com.Post.dto.CommentDto;
+import com.Post.dto.post.CreatePostDto;
 import com.Post.dto.post.GetPostDto;
 import com.Post.dto.post.MainPostDto;
 
@@ -33,6 +34,27 @@ public class PostMapper {
         dto.setUpdatedAt(post.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         return dto;
+
+    }
+
+    public static CreatePostDto toCreatePostDto(Post post) {
+        if(post == null) return null;
+        CreatePostDto dto = new CreatePostDto();
+
+
+        dto.setTitle(post.getTitle());
+
+        dto.setContent(post.getContent());
+
+
+        dto.setUsername(post.getMember().getUsername());
+
+
+
+        return dto;
+
+
+
 
     }
 }

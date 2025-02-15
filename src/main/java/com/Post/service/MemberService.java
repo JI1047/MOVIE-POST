@@ -45,8 +45,6 @@ public class MemberService {
         member.setContext(dto.getText());
         memberRepository.save(member);
 
-        // MemberResponseDto 반환
-        memberRepository.save(member);
     }
 
     public LoginRequestDto LoginMember(LoginRequestDto dto) {
