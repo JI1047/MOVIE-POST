@@ -5,6 +5,7 @@ import com.Post.domain.member.Member;
 import com.Post.dto.post.CreatePostDto;
 import com.Post.dto.post.GetPostDto;
 import com.Post.dto.post.MainPostDto;
+import com.Post.dto.post.UpdatePostDto;
 import com.Post.mapper.PostMapper;
 import com.Post.repository.MemberRepository;
 import com.Post.repository.PostRepository;
@@ -39,6 +40,11 @@ public class PostService {
         return PostMapper.toGetPostDto(post);
     }
 
+    public CreatePostDto getCreatePostDto(Long id) {
+        Post post = postRepository.findById(id).orElse(null);
+        return PostMapper.toCreatePostDto(post);
+    }
+
     public void createPost(CreatePostDto dto) {
         if(dto.getTitle() == null || dto.getTitle().isEmpty()) {
             throw new IllegalArgumentException("제목을 입력하세요!");
@@ -62,5 +68,39 @@ public class PostService {
 
         postRepository.save(post);
     }
+
+    public UpdatePostDto updatePost(Long postId, UpdatePostDto dto) {
+        Post post = postRepository.findById(postId).orElse(null);
+
+
+        if(dto.getTitle() == null || dto.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("제목을 입력하세요!");
+        }
+
+        if (postRepository.existsByTitle(dto.getTitle())) {
+            throw new IllegalArgumentException("이미 존재하는 제목입니다.");
+        }
+
+
+        post.setTitle(dto.getTitle());
+        post.setContent(dto.getContent());
+
+        post.setUpdatedAt(LocalDateTime.now());
+
+
+        postRepository.save(post);
+
+        return PostMapper.toUpdatePostDto(post);
+    }
+
+
+    public void deletePost(Long postId) {
+        if(!postRepository.existsById(postId)) {
+            throw new IllegalArgumentException("해당 게시물을 찾을 수 없습니다.");
+
+        }
+        postRepository.deleteById(postId);
+    }
+
 
 }

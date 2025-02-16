@@ -5,6 +5,7 @@ import com.Post.dto.CommentDto;
 import com.Post.dto.post.CreatePostDto;
 import com.Post.dto.post.GetPostDto;
 import com.Post.dto.post.MainPostDto;
+import com.Post.dto.post.UpdatePostDto;
 
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
@@ -52,9 +53,16 @@ public class PostMapper {
 
 
         return dto;
+    }
 
+    public static UpdatePostDto toUpdatePostDto(Post post) {
+        if(post == null) return null;
 
+        UpdatePostDto dto = new UpdatePostDto();
 
+        dto.setTitle(post.getTitle());
+        dto.setContent(post.getContent());
 
+        return dto;
     }
 }

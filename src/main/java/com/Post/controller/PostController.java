@@ -1,9 +1,11 @@
 package com.Post.controller;
 
+import com.Post.dto.member.EditDto;
 import com.Post.dto.member.MemberSignupDto;
 import com.Post.dto.post.CreatePostDto;
 import com.Post.dto.post.GetPostDto;
 import com.Post.dto.post.MainPostDto;
+import com.Post.dto.post.UpdatePostDto;
 import com.Post.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +43,37 @@ public class PostController {
     @PostMapping("/create-post")
     public ResponseEntity<String> createPost(@Validated @RequestBody CreatePostDto dto) {
 
-        try{
+        try {
             postService.createPost(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body("글이 작성됐습니다!");
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/edit-post/{postId}")
+    public ResponseEntity<CreatePostDto> editPost(@PathVariable Long postId) {
+
+        CreatePostDto post = postService.getCreatePostDto(postId);
+        if (post == null) {
+            return ResponseEntity.notFound().build();
+
+        }
+        return ResponseEntity.ok(post);
+    }
+
+    @PutMapping("/edit-post/{postId}")
+    public ResponseEntity<UpdatePostDto> editPost(@PathVariable Long postId, @Validated @RequestBody UpdatePostDto dto) {
+        UpdatePostDto postInfo = postService.updatePost(postId, dto);
+        if (postInfo == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(postInfo);
+    }
+
+    @DeleteMapping("edit-post/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable Long postId) {
+        postService.deletePost(postId);
+        return ResponseEntity.noContent().build();
     }
 }
