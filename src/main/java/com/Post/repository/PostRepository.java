@@ -9,4 +9,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAll();
 
     boolean existsByTitle(String title);
+
+    List<Post> findByMemberId(Long memberId);
 }

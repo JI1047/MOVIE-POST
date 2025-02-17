@@ -4,13 +4,17 @@ import com.Post.dto.member.EditDto;
 import com.Post.dto.member.LoginRequestDto;
 import com.Post.dto.member.MemberSignupDto;
 import com.Post.dto.member.MyPageDto;
+import com.Post.dto.post.GetPostDto;
+import com.Post.dto.post.MainPostDto;
 import com.Post.service.MemberService;
+import com.Post.service.PostService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,9 +22,11 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PostService postService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, PostService postService) {
         this.memberService = memberService;
+        this.postService = postService;
     }
 
     @PostMapping("/signup")
@@ -76,4 +82,11 @@ public class MemberController {
         memberService.deleteMember(userId);
         return ResponseEntity.ok("회원탈퇴가 완료되었습니다.");
     }
+
+    @GetMapping("{userId}/posts")
+    public List<MainPostDto> getPosts(@PathVariable Long userId) {
+
+        return postService.getPostsByMemberId(userId);
+    }
+
 }

@@ -35,6 +35,19 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public List<MainPostDto> getPostsByMemberId(Long memberId) {
+        return postRepository.findByMemberId(memberId)
+                .stream()
+                .map(post -> new MainPostDto(
+                        post.getId(),
+                        post.getTitle(),
+                        post.getViewCount(),
+                        post.getMember().getUsername()// memberId를 이용해 회원 정보 조회
+
+                ))
+                .collect(Collectors.toList());
+    }
+
     public GetPostDto getPostById(Long id) {
         Post post = postRepository.findById(id).orElse(null);
         return PostMapper.toGetPostDto(post);
@@ -77,9 +90,7 @@ public class PostService {
             throw new IllegalArgumentException("제목을 입력하세요!");
         }
 
-        if (postRepository.existsByTitle(dto.getTitle())) {
-            throw new IllegalArgumentException("이미 존재하는 제목입니다.");
-        }
+        
 
 
         post.setTitle(dto.getTitle());
