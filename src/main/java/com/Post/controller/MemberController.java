@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/members")
@@ -29,6 +28,8 @@ public class MemberController {
         this.postService = postService;
     }
 
+
+    //회원가입시 POST api
     @PostMapping("/signup")
     public ResponseEntity<String> registerMember(@Validated @RequestBody MemberSignupDto dto) {
         try {
@@ -39,6 +40,7 @@ public class MemberController {
         }
     }
 
+    //로그인시 Post api
     @PostMapping("/login")
     public ResponseEntity<LoginRequestDto> loginMember(@Validated @RequestBody LoginRequestDto dto, HttpSession session) {
         LoginRequestDto response = memberService.LoginMember(dto);
@@ -47,9 +49,9 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    //회원 상세페이지 Get api
     @GetMapping("/{userId}")
     public ResponseEntity<MyPageDto> getUserInfo(@PathVariable Long userId) {
-        // 예: 서비스에서 사용자 정보를 조회
         MyPageDto userInfo = memberService.MyPageMember(userId);
 
         if (userInfo == null) {
@@ -58,6 +60,7 @@ public class MemberController {
         return ResponseEntity.ok(userInfo); // 사용자 정보 반환
     }
 
+    //회원 수정 get api
     @GetMapping("/{userId}/edit")
     public ResponseEntity<EditDto> editUserInfo(@PathVariable Long userId) {
         EditDto userInfo = memberService.EditMemberInfo(userId);
@@ -67,6 +70,7 @@ public class MemberController {
         return ResponseEntity.ok(userInfo);
     }
 
+    //회원 수정 Put api
     @PutMapping("/{userId}/edit")
     public ResponseEntity<EditDto> editUserInfo(@PathVariable Long userId, @RequestBody EditDto editData) {
 
@@ -77,12 +81,14 @@ public class MemberController {
         return ResponseEntity.ok(userInfo);
     }
 
+    //회원 삭제 delete api
     @DeleteMapping("{userId}/delete")
     public ResponseEntity<String> deleteUserInfo(@PathVariable Long userId) {
         memberService.deleteMember(userId);
         return ResponseEntity.ok("회원탈퇴가 완료되었습니다.");
     }
 
+    //회원이 작성한 게시글 조회 get api
     @GetMapping("{userId}/posts")
     public List<MainPostDto> getPosts(@PathVariable Long userId) {
 

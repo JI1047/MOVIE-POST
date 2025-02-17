@@ -24,6 +24,7 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    //회원가입을 처리하는 service
     public void registerMember(MemberSignupDto dto) {
         // 이메일 중복 체크
         if (memberRepository.existsByEmail(dto.getEmail())) {
@@ -47,6 +48,7 @@ public class MemberService {
 
     }
 
+    //login을 처리하는 service
     public LoginRequestDto LoginMember(LoginRequestDto dto) {
 
 
@@ -60,17 +62,21 @@ public class MemberService {
         return MemberMapper.toLoginRequestDto(member);
     }
 
+    //회원 상세 정보를 처리하는 service
     public MyPageDto MyPageMember(Long userId) {
         Member member = memberRepository.findById(userId).orElseThrow();
         return MemberMapper.toMyPageDto(member);
 
     }
 
+    //회원 수정시 정보를 제공하는 service
     public EditDto EditMemberInfo(Long userId) {
         Member member = memberRepository.findById(userId).orElseThrow();
         return MemberMapper.toEditDto(member);
     }
 
+
+    //회원 수정시 정보를 처리하는 service
     public EditDto EditMember(Long userId, EditDto dto) {
         // 데이터베이스에서 회원 정보 조회
         Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
@@ -114,6 +120,7 @@ public class MemberService {
                 (dto.getContext() == null || dto.getContext().equals(member.getContext())) &&
                 (dto.getPassword() == null || dto.getPassword().isEmpty());
     }
+    //회원 삭제를 처리하는 service
     public void deleteMember(Long id) {
         if (!memberRepository.existsById(id)) {
             throw new IllegalArgumentException("해당 사용자를 찾을 수 없습니다.");

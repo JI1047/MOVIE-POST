@@ -29,12 +29,14 @@ public class PostService {
 
     }
 
+    //모든 게시물을 조회하는 service
     public List<MainPostDto> getAllPosts() {
         return postRepository.findAll().stream()
                 .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getViewCount(), post.getMember().getUsername()))
                 .collect(Collectors.toList());
     }
 
+    //memberId를 통해 post를 불러오는 service
     public List<MainPostDto> getPostsByMemberId(Long memberId) {
         return postRepository.findByMemberId(memberId)
                 .stream()
@@ -48,16 +50,20 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    //post의 id를 통해 post를 조회하는 service
     public GetPostDto getPostById(Long id) {
         Post post = postRepository.findById(id).orElse(null);
         return PostMapper.toGetPostDto(post);
     }
 
+    //post를 생성을 위한 service
     public CreatePostDto getCreatePostDto(Long id) {
         Post post = postRepository.findById(id).orElse(null);
         return PostMapper.toCreatePostDto(post);
     }
 
+
+    //post생성 처리를 위한 service
     public void createPost(CreatePostDto dto) {
         if(dto.getTitle() == null || dto.getTitle().isEmpty()) {
             throw new IllegalArgumentException("제목을 입력하세요!");
@@ -82,6 +88,7 @@ public class PostService {
         postRepository.save(post);
     }
 
+    //post update를 위한 service
     public UpdatePostDto updatePost(Long postId, UpdatePostDto dto) {
         Post post = postRepository.findById(postId).orElse(null);
 
@@ -105,6 +112,7 @@ public class PostService {
     }
 
 
+    //post를 삭제하기 위한 service
     public void deletePost(Long postId) {
         if(!postRepository.existsById(postId)) {
             throw new IllegalArgumentException("해당 게시물을 찾을 수 없습니다.");

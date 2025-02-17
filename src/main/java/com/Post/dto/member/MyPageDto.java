@@ -4,8 +4,7 @@ import com.Post.domain.member.Role;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+//회원정보를 불러오기 위한 dto
 @Getter
 @Setter
 public class MyPageDto {

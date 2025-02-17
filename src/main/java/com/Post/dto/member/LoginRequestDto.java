@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+//로그인시 필요한 dto
 @Getter
 @Setter
 public class LoginRequestDto {

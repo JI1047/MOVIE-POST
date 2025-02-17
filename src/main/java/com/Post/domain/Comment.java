@@ -32,11 +32,5 @@ public class Comment {
     @Column(nullable = false, length = 255)
     private String text;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt; // 생성 일자
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt; // 수정 일자
 }

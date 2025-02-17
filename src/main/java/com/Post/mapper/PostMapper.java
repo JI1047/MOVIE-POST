@@ -4,7 +4,6 @@ import com.Post.domain.Post;
 import com.Post.dto.CommentDto;
 import com.Post.dto.post.CreatePostDto;
 import com.Post.dto.post.GetPostDto;
-import com.Post.dto.post.MainPostDto;
 import com.Post.dto.post.UpdatePostDto;
 
 import java.time.format.DateTimeFormatter;

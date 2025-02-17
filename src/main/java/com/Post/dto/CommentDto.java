@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+//댓글 dto
 @Getter
 @Setter
 @AllArgsConstructor

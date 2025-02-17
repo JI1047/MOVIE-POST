@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+
+//회원가입을 위한 dto
 @Getter
 @Setter
 public class MemberSignupDto {
