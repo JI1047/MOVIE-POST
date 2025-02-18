@@ -127,5 +127,13 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
+    //조회수 증가를 위한 service
+    public void increaseViewCount(Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        post.setViewCount(post.getViewCount() + 1);
+        postRepository.save(post);
+
+    }
+
 
 }

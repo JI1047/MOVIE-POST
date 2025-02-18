@@ -52,6 +52,10 @@ public class PostController {
         }
         return ResponseEntity.ok(post);
     }
+    @PutMapping("/{postId}")
+    public void increaseViewCount(@PathVariable Long postId) {
+        postService.increaseViewCount(postId);
+    }
 
     @PostMapping("{postId}/comments")
     public ResponseEntity<String> addComment(@PathVariable Long postId, @RequestBody CreateCommentDto dto) {
