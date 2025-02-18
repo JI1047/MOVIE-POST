@@ -8,6 +8,8 @@ import com.Post.dto.post.GetPostDto;
 import com.Post.dto.post.MainPostDto;
 import com.Post.service.MemberService;
 import com.Post.service.PostService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+@OpenAPIDefinition(
+        info = @Info(title = "게시판 API", version = "1.0", description = "게시판 회원 관련 API 문서")
+)
 
 @RestController
 @RequestMapping("/api/members")

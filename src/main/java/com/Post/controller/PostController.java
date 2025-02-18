@@ -9,6 +9,9 @@ import com.Post.dto.post.MainPostDto;
 import com.Post.dto.post.UpdatePostDto;
 import com.Post.service.CommentService;
 import com.Post.service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,8 +34,12 @@ public class PostController {
 
     //mainPage에 표시되는 게시글 조회 get api
     @GetMapping
-    public List<MainPostDto> getAllPost() {
-        return postService.getAllPosts();
+    public Page<MainPostDto> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return postService.getAllPosts(pageable);
     }
 
     //게시글 조회 get api

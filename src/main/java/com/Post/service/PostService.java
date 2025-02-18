@@ -9,6 +9,8 @@ import com.Post.dto.post.UpdatePostDto;
 import com.Post.mapper.PostMapper;
 import com.Post.repository.MemberRepository;
 import com.Post.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +32,14 @@ public class PostService {
     }
 
     //모든 게시물을 조회하는 service
-    public List<MainPostDto> getAllPosts() {
-        return postRepository.findAll().stream()
-                .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getViewCount(), post.getMember().getUsername()))
-                .collect(Collectors.toList());
+    public Page<MainPostDto> getAllPosts(Pageable pageable) {
+        return postRepository.findAll(pageable)
+                .map(post -> new MainPostDto(
+                        post.getId(),
+                        post.getTitle(),
+                        post.getViewCount(),
+                        post.getMember().getUsername()
+                ));
     }
 
     //memberId를 통해 post를 불러오는 service
